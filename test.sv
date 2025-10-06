@@ -17,9 +17,11 @@ super.build_phase(phase);
 endfunction
  
 virtual task run_phase(uvm_phase phase);
-phase.raise_objection(this);
-gen.start(e.a.seqr);
- #400;
-phase.drop_objection(this);
+  phase.raise_objection(this);
+  gen.start(e.a.seqr);
+  phase.drop_objection(this);
+  
+  // Drain time helps caputre pending response data
+  phase.phase_done.set_drain_time(this,500ns);
 endtask
 endclass
